@@ -1,4 +1,4 @@
-package models;
+package application.models;
 
 import javax.persistence.*;
 
@@ -8,9 +8,9 @@ public class Review {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private User reviewAuthor;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Product reviewedProduct;
 
     private int reviewRating;
