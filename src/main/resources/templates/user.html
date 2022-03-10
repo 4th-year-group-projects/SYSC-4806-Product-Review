@@ -7,3 +7,31 @@ Display:
 - most followed users ( button when clicked un-hides a list)
 
 -->
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Users</title>
+</head>
+<body>
+
+<h1>User Home Page</h1>
+
+<form action="#" th:action="@{/review}" method="get" id="newReview">
+    <p><input type="submit" value="Create new product review"/></p>
+</form>
+
+<form action="#" th:action="@{/products}" method="get" id="products">
+    <p><input type="submit" value="View products list"/></p>
+</form>
+
+<form action="#" th:action="@{/previousReview}" method="get" id="previousReview">
+    <p><input type="submit" value="View previous product reviews"/></p>
+</form>
+
+
+
+</body>
+</html>
