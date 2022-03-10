@@ -1,4 +1,4 @@
-package sysc4806.repositories;
+package application.repositories;
 
 public class ReviewRepository {
 }
