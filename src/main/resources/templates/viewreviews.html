@@ -14,11 +14,11 @@
     <th>Rating</th>
     <th>Comment</th>
   </tr>
-  <tr each="review : ${reviewlist}">
-    <td text="${review.id}"></td>
-    <td text="${review.reviewProduct}"></td>
-    <td text="${review.reviewRating}"></td>
-    <td text="${review.reviewComment}"></td>
+  <tr th:each="review : ${reviewlist}">
+    <td th:text="${review.id}"></td>
+    <td th:text="${review.reviewedProduct}"></td>
+    <td th:text="${review.reviewRating}"></td>
+    <td th:text="${review.reviewComment}"></td>
   </tr>
 </table>
 <form action="#" th:action="@{/review}" method="get" id="createreview">

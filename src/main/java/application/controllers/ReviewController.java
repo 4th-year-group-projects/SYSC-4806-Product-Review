@@ -31,6 +31,7 @@ public class ReviewController {
     //@RequestMapping(value="/review", method = RequestMethod.POST)
     @PostMapping("/review")
     public String createProductReviewSuccess(@ModelAttribute Review review, Model model) {
+        System.out.println(review.toString());
         model.addAttribute(review);
         this.reviewRepository.save(review);
         return "reviewSuccess";

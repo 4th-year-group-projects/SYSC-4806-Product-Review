@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue//(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
 //    @ManyToOne//(fetch = FetchType.EAGER)
@@ -23,10 +23,6 @@ public class Review {
      * Default constructor
      */
     public Review() {
-       // reviewAuthor = new User();
-        reviewedProduct = "";
-        reviewRating = "0";
-        reviewComment = "";
     }
 
     /**
