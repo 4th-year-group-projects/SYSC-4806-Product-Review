@@ -1,0 +1,9 @@
+application\repositories\ReviewRepository.class
+application\models\Product.class
+application\models\Review.class
+application\controllers\ReviewController.class
+application\repositories\ProductRepository.class
+application\MainApp.class
+Category.class
+application\models\User.class
+application\repositories\UserRepository.class
