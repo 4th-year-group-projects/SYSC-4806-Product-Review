@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>View Reviews</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Previous Reviews </h1>
+<p th:text="'Viewing Previos reviews of user : ' + ${main.productreview.models.User.username}"/>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Product Name</th>
+        <th>Url</th>
+        <th>Rating</th>
+    </tr>
+    <tr th:each="review : ${main.productreview.models.User.reviewList}">
+        <td th:text="${review.id}"></td>
+        <td th:text="${review.name}"></td>
+        <td th:text="${review.url}"></td>
+        <td th:text="${review.rating}"></td>
+    </tr>
+</table>
+</body>
+</html>
