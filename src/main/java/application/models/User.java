@@ -22,9 +22,7 @@ public class User {
     private Set<User> followingList;
 
 
-    // default constructor
-    public User() {
-    }
+    public User() {}
 
     public User(String name, String password) {
         this.username = name;
@@ -55,12 +53,28 @@ public class User {
         return followingList;
     }
 
-    public Review writeReview(Product product, int rating, String text){
-        Review review = new Review(product, rating, text);
-        this.reviewList.add(review);
-
-        return review;
+    public String getPassword() {
+        return password;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+//    public Review writeReview(Product product, int rating, String text){
+//        Review review = new Review(product, rating, text);
+//        this.reviewList.add(review);
+//
+//        return review;
+//    }
 
     public void followUser(User user){
         this.followingList.add(user);
@@ -70,22 +84,6 @@ public class User {
     public void unFollowUser(User user){
         this.followingList.remove(user);
         user.removeFollower(this);
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public void addFollower(User follower){

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Previous Reviews </h1>
-<p th:text="'Viewing Previos reviews of user : ' + ${main.productreview.models.User.username}"/>
+<p th:text="'Viewing Previos reviews of user : ' + ${application.models.User.username}"/>
 <table border="1">
     <tr>
         <th>Id</th>
@@ -14,7 +14,7 @@
         <th>Url</th>
         <th>Rating</th>
     </tr>
-    <tr th:each="review : ${main.productreview.models.User.reviewList}">
+    <tr th:each="review : ${application.models.User.reviewList}">
         <td th:text="${review.id}"></td>
         <td th:text="${review.name}"></td>
         <td th:text="${review.url}"></td>
