@@ -6,22 +6,22 @@ import java.util.List;
 
 @Entity
 public class User {
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "reviewAuthor", cascade = CascadeType.ALL)
-    private List<Review> reviews;
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "reviewAuthor", cascade = CascadeType.ALL)
+//    private List<Review> reviews;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     public User() {
-        reviews = new ArrayList();
+
     }
-    public List getReviews() {
-        return this.reviews;
-    }
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
+//    public List getReviews() {
+//        return this.reviews;
+//    }
+//    public void setReviews(List<Review> reviews) {
+//        this.reviews = reviews;
+//    }
 
 
     public Long getId() {

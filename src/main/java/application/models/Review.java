@@ -5,20 +5,17 @@ import javax.persistence.*;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue//(strategy = GenerationType.AUTO)
+    private long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "reviewAuthor_ID")
-    private User reviewAuthor;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Product reviewedProduct;
+//    @ManyToOne//(fetch = FetchType.EAGER)
+//   // @JoinColumn(name = "reviewAuthor_ID")
+//    private User reviewAuthor;
+//    @ManyToOne//(cascade = CascadeType.ALL)
+//    private Product reviewedProduct;
 
-
-
-    private String url;
-
-    private int reviewRating;
+    private String reviewedProduct;
+    private String reviewRating;
     private String reviewComment;
 
 
@@ -26,24 +23,35 @@ public class Review {
      * Default constructor
      */
     public Review() {
-        reviewAuthor = new User();
-        reviewedProduct = new Product();
-        url = "";
-        reviewRating = 0;
+       // reviewAuthor = new User();
+        reviewedProduct = "";
+        reviewRating = "0";
         reviewComment = "";
     }
 
     /**
      * Constructor to initialize a new review for a product
-     * @param author to be initialized to
-     * @param product to be initialized to
+     * @param productName to be initialized to
      * @param rating to be initialized to
      * @param comment to be initialized to
      */
-    public Review(User author, Product product, int rating, String comment) {
-        super();
-        this.reviewAuthor = author;
-        this.reviewedProduct = product;
+    public Review(String productName, String rating, String comment) {
+       // this.reviewAuthor = author;
+        this.reviewedProduct = productName;
+        this.reviewRating = rating;
+        this.reviewComment = comment;
+    }
+
+    /**
+     * Constructor to initialize a new review for a product
+     * @param productName to be initialized to
+     * @param rating to be initialized to
+     * @param comment to be initialized to
+     */
+    public Review(long id, String productName, String rating, String comment) {
+        this.id = id;
+      //  this.reviewAuthor = author;
+        this.reviewedProduct = productName;
         this.reviewRating = rating;
         this.reviewComment = comment;
     }
@@ -64,27 +72,27 @@ public class Review {
         this.id = id;
     }
 
-    /**
-     * Setting author to a specified user
-     * @param user user to be set to
-     */
-    public void setReviewAuthor(User user) {
-        this.reviewAuthor = user;
-    }
-
-    /**
-     *
-     * @return the user who wrote the review
-     */
-    public User getReviewAuthor() {
-        return this.reviewAuthor;
-    }
+//    /**
+//     * Setting author to a specified user
+//     * @param user user to be set to
+//     */
+//    public void setReviewAuthor(User user) {
+//        this.reviewAuthor = user;
+//    }
+//
+//    /**
+//     *
+//     * @return the user who wrote the review
+//     */
+//    public User getReviewAuthor() {
+//        return this.reviewAuthor;
+//    }
 
     /**
      * Setting the product that was reviewed
      * @param product product to be set to
      */
-    public void setReviewedProduct(Product product) {
+    public void setReviewedProduct(String product) {
         this.reviewedProduct = product;
     }
 
@@ -92,7 +100,7 @@ public class Review {
      *
      * @return product that was reviewed
      */
-    public Product getReviewedProduct() {
+    public String getReviewedProduct() {
         return this.reviewedProduct;
     }
 
@@ -100,7 +108,7 @@ public class Review {
      * Setting the rating for the product review
      * @param rating rating to be set to
      */
-    public void setReviewRating(int rating) {
+    public void setReviewRating(String rating) {
         this.reviewRating = rating;
     }
 
@@ -108,7 +116,7 @@ public class Review {
      *
      * @return the rating for the product reviewed
      */
-    public int getReviewRating() {
+    public String getReviewRating() {
         return this.reviewRating;
     }
 
@@ -128,11 +136,14 @@ public class Review {
         return this.reviewComment;
     }
 
-    public String getUrl() {
-        return url;
+    @Override
+    @Transient
+    public String toString() {
+        return "{" +
+                this.id + ", " +
+                this.reviewedProduct + ", " +
+                this.reviewRating + ", " +
+                this.reviewComment + "}";
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

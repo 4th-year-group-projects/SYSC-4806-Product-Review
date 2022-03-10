@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>View Reviews </h1>
+<p th:text="'Viewing All Reviews'"/>
+<table border="1">
+  <tr>
+    <th>Id</th>
+    <th>Product</th>
+    <th>Rating</th>
+    <th>Comment</th>
+  </tr>
+  <tr each="review : ${reviewlist}">
+    <td text="${review.id}"></td>
+    <td text="${review.reviewProduct}"></td>
+    <td text="${review.reviewRating}"></td>
+    <td text="${review.reviewComment}"></td>
+  </tr>
+</table>
+<form action="#" th:action="@{/review}" method="get" id="createreview">
+  <h6> Create Review</h6>
+  <p><input type="submit" value="Create Review"/></p>
+</form>
+</body>
+</html>

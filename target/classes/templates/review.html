@@ -15,22 +15,18 @@ Display:
 </head>
 <body>
     <h1>Create a Review</h1>
-    <form action="#" th:action="@{'/reviewCreated/' + ${id}}" th:object="${review}" method="post">
+    <form action="#" th:action="@{'/review'}" th:object="${review}" method="post">
         <div class="mb-3">
             <label for="productName" class="form-label">Enter Product Name</label>
-            <input type="text" field="*{reviewedProduct}" class="form-control form-control-sm" id="productName" placeholder="Product Name">
-        </div>
-        <div class="mb-3">
-            <label for="productURL" class="form-label">Enter Product URL</label>
-            <input type="text" field="*{url}" class="form-control form-control-sm" id="productURL" placeholder="Link to Product">
+            <input type="text" th:field="*{reviewedProduct}" class="form-control form-control-sm" id="productName" placeholder="Product Name">
         </div>
         <div class="mb-3">
             <label for="productRating" class="form-label">Enter Rating</label>
-            <input type="text" field="*{reviewRating}" class="form-control form-control-sm" id="productRating" placeholder="e.g 1-4">
+            <input type="text" th:field="*{reviewRating}" class="form-control form-control-sm" id="productRating" placeholder="e.g 1-4">
         </div>
         <div class="mb-3">
             <label for="productComment" class="form-label">Comments about this Product</label>
-            <input type="text" field="*{reviewComment}" class="form-control form-control-sm" id="productComment" placeholder="Explain the rating here">
+            <input type="text" th:field="*{reviewComment}" class="form-control form-control-sm" id="productComment" placeholder="Explain the rating here">
         </div>
         <div>
 <!--            <input name="id" type="text" th:value="${id}" hidden>-->
