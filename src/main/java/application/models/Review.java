@@ -5,16 +5,34 @@ import javax.persistence.*;
 @Entity
 public class Review {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "reviewAuthor_ID")
     private User reviewAuthor;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Product reviewedProduct;
+
+
+
+    private String url;
 
     private int reviewRating;
     private String reviewComment;
+
+
+    /**
+     * Default constructor
+     */
+    public Review() {
+        reviewAuthor = new User();
+        reviewedProduct = new Product();
+        url = "";
+        reviewRating = 0;
+        reviewComment = "";
+    }
+
     /**
      * Constructor to initialize a new review for a product
      * @param author to be initialized to
@@ -23,16 +41,11 @@ public class Review {
      * @param comment to be initialized to
      */
     public Review(User author, Product product, int rating, String comment) {
+        super();
         this.reviewAuthor = author;
         this.reviewedProduct = product;
         this.reviewRating = rating;
         this.reviewComment = comment;
-    }
-
-    /**
-     * Default constructor
-     */
-    public Review() {
     }
 
     /**
@@ -113,5 +126,13 @@ public class Review {
      */
     public String getReviewComment() {
         return this.reviewComment;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 }
