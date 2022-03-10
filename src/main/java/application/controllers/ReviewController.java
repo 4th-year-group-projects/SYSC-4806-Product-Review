@@ -21,14 +21,12 @@ public class ReviewController {
         this.reviewRepository = repository;
     }
 
-    //@RequestMapping(value = "/review", method = RequestMethod.GET)
     @GetMapping("/review")
     public String createProductReviewForm( Model model) {
         model.addAttribute("review", new Review());
         return "review";
     }
 
-    //@RequestMapping(value="/review", method = RequestMethod.POST)
     @PostMapping("/review")
     public String createProductReviewSuccess(@ModelAttribute Review review, Model model) {
         System.out.println(review.toString());
@@ -37,11 +35,11 @@ public class ReviewController {
         return "reviewSuccess";
     }
 
-    //@RequestMapping(value = "/viewreviews", method = RequestMethod.GET)
     @GetMapping("/viewreviews")
     public String viewReviews(Model model) {
         List<Review> reviews = this.reviewRepository.findAll();
         model.addAttribute("reviewlist", reviews);
         return "viewreviews";
     }
+
 }

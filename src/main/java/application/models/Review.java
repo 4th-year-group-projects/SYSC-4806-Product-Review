@@ -8,14 +8,13 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-//    @ManyToOne//(fetch = FetchType.EAGER)
-//   // @JoinColumn(name = "reviewAuthor_ID")
-//    private User reviewAuthor;
-//    @ManyToOne//(cascade = CascadeType.ALL)
-//    private Product reviewedProduct;
+    @ManyToOne//(fetch = FetchType.EAGER)
+    private User reviewAuthor;
+    @ManyToOne//(cascade = CascadeType.ALL)
+    private Product Product;
 
     private String reviewedProduct;
-    private String reviewRating;
+    private int reviewRating;
     private String reviewComment;
 
 
@@ -31,7 +30,7 @@ public class Review {
      * @param rating to be initialized to
      * @param comment to be initialized to
      */
-    public Review(String productName, String rating, String comment) {
+    public Review(String productName, int rating, String comment) {
        // this.reviewAuthor = author;
         this.reviewedProduct = productName;
         this.reviewRating = rating;
@@ -44,7 +43,7 @@ public class Review {
      * @param rating to be initialized to
      * @param comment to be initialized to
      */
-    public Review(long id, String productName, String rating, String comment) {
+    public Review(long id, String productName, int rating, String comment) {
         this.id = id;
       //  this.reviewAuthor = author;
         this.reviewedProduct = productName;
@@ -68,21 +67,21 @@ public class Review {
         this.id = id;
     }
 
-//    /**
-//     * Setting author to a specified user
-//     * @param user user to be set to
-//     */
-//    public void setReviewAuthor(User user) {
-//        this.reviewAuthor = user;
-//    }
-//
-//    /**
-//     *
-//     * @return the user who wrote the review
-//     */
-//    public User getReviewAuthor() {
-//        return this.reviewAuthor;
-//    }
+    /**
+     * Setting author to a specified user
+     * @param user user to be set to
+     */
+    public void setReviewAuthor(User user) {
+        this.reviewAuthor = user;
+    }
+
+    /**
+     *
+     * @return the user who wrote the review
+     */
+    public User getReviewAuthor() {
+        return this.reviewAuthor;
+    }
 
     /**
      * Setting the product that was reviewed
@@ -104,7 +103,7 @@ public class Review {
      * Setting the rating for the product review
      * @param rating rating to be set to
      */
-    public void setReviewRating(String rating) {
+    public void setReviewRating(int rating) {
         this.reviewRating = rating;
     }
 
@@ -112,7 +111,7 @@ public class Review {
      *
      * @return the rating for the product reviewed
      */
-    public String getReviewRating() {
+    public int getReviewRating() {
         return this.reviewRating;
     }
 
