@@ -81,7 +81,6 @@ public class Product {
                 this.Id + ", " +
                 this.name + ", " +
                 this.description + ", " +
-                this.link + ", " +
-                this.reviews.toString() + "}";
+                this.link + ", " + "}";
     }
 }
