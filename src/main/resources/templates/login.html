@@ -1,5 +1,17 @@
-<!--
-Display:
-- username and password input area
-- login button
--->
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Login</title>
+</head>
+<body>
+
+<h1>Log In</h1>
+<form action="#" th:action="@{'/login'}" th:object="${user}" method="post" >
+    <p>Username: <input type="text" th:field="*{username}" id="username"/></p>
+    <p>Password: <input type="text" th:field="*{password}" id="password"/></p>
+    <p><input type="submit" value="Log In"/></p>
+</form>
+
+</body>
+</html>
