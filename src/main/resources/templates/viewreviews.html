@@ -6,24 +6,24 @@
 </head>
 <body>
 <h1>View Reviews </h1>
-<p th:text="'Viewing All Reviews'"/>
+<p th:text="'Viewing All Reviews for ' + ${currentProduct.name}"/>
 <table border="1">
   <tr>
     <th>Id</th>
-    <th>Product</th>
     <th>Rating</th>
     <th>Comment</th>
   </tr>
-  <tr th:each="review : ${reviewlist}">
+  <tr th:each="review : ${currentProduct.reviews}">
     <td th:text="${review.id}"></td>
-    <td th:text="${review.reviewedProduct}"></td>
     <td th:text="${review.reviewRating}"></td>
     <td th:text="${review.reviewComment}"></td>
   </tr>
 </table>
-<form action="#" th:action="@{/review}" method="get" id="createreview">
-  <h6> Create Review</h6>
+<form action="#" th:action="@{'/createreview/' + ${id}}" method="get" id="createreview">
   <p><input type="submit" value="Create Review"/></p>
+</form>
+<form action="#" th:action="@{/viewproducts}" method="get" id="viewproducts">
+  <p><input type="submit" value="View Products"/></p>
 </form>
 </body>
 </html>

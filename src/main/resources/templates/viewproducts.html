@@ -19,6 +19,11 @@
         <td th:text="${product.name}"></td>
         <td th:text="${product.description}"></td>
         <td th:text="${product.link}"></td>
+        <td>
+            <form action="#" th:action="@{/viewreviews/} + ${product.id}" method="get" id="viewreviews">
+                <p><input type="submit" value="See Reviews ->"/></p>
+            </form>
+        </td>
     </tr>
 </table>
 <form action="#" th:action="@{/createproduct}" method="get" id="createaddressbook">
