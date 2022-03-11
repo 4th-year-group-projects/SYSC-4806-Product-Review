@@ -1,6 +1,5 @@
 package application.controllers;
 
-import application.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,11 +10,11 @@ import application.models.User;
 import application.repositories.UserRepository;
 
 @Controller
-public class loginController {
+public class LoginController {
     @Autowired
     private UserRepository repository;
 
-    public loginController(UserRepository repository) {
+    public LoginController(UserRepository repository) {
         this.repository = repository;
     }
 
@@ -25,14 +24,14 @@ public class loginController {
         return "login";
     }
 
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute User user) {
-//        User userFromRepo = this.repository.findByUsername(user.getUsername());
-//        if((userFromRepo != null) && userFromRepo.getPassword().equals(user.getPassword())){
-//            return "user";
-//        }
-//        return "loginFailure";
-//    }
+    @PostMapping("/login")
+    public String login(@ModelAttribute User user) {
+        User userFromRepo = this.repository.findByUsername(user.getUsername());
+        if((userFromRepo != null) && userFromRepo.getPassword().equals(user.getPassword())){
+            return "user";
+        }
+        return "loginFailure";
+    }
 
 
     @GetMapping("/register")
