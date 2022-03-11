@@ -10,10 +10,10 @@ public class Review {
 
     @ManyToOne//(fetch = FetchType.EAGER)
     private User reviewAuthor;
-    @ManyToOne//(cascade = CascadeType.ALL)
-    private Product Product;
+    @ManyToOne(fetch = FetchType.LAZY)//(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id")
+    private Product product;
 
-    private String reviewedProduct;
     private int reviewRating;
     private String reviewComment;
 
@@ -30,23 +30,22 @@ public class Review {
      * @param rating to be initialized to
      * @param comment to be initialized to
      */
-    public Review(String productName, int rating, String comment) {
+    public Review(String productName, Product product, int rating, String comment) {
        // this.reviewAuthor = author;
-        this.reviewedProduct = productName;
+        this.product = product;
         this.reviewRating = rating;
         this.reviewComment = comment;
     }
 
     /**
      * Constructor to initialize a new review for a product
-     * @param productName to be initialized to
      * @param rating to be initialized to
      * @param comment to be initialized to
      */
-    public Review(long id, String productName, int rating, String comment) {
+    public Review(long id, Product product, int rating, String comment) {
         this.id = id;
       //  this.reviewAuthor = author;
-        this.reviewedProduct = productName;
+        this.product = product;
         this.reviewRating = rating;
         this.reviewComment = comment;
     }
@@ -87,16 +86,16 @@ public class Review {
      * Setting the product that was reviewed
      * @param product product to be set to
      */
-    public void setReviewedProduct(String product) {
-        this.reviewedProduct = product;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     /**
      *
      * @return product that was reviewed
      */
-    public String getReviewedProduct() {
-        return this.reviewedProduct;
+    public Product getReviewedProduct() {
+        return this.product;
     }
 
     /**
@@ -136,7 +135,6 @@ public class Review {
     public String toString() {
         return "{" +
                 this.id + ", " +
-                this.reviewedProduct + ", " +
                 this.reviewRating + ", " +
                 this.reviewComment + "}";
     }
