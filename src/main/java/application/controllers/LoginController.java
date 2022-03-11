@@ -28,7 +28,7 @@ public class LoginController {
     public String login(@ModelAttribute User user) {
         User userFromRepo = this.repository.findByUsername(user.getUsername());
         if((userFromRepo != null) && userFromRepo.getPassword().equals(user.getPassword())){
-            return "user";
+            return "viewproducts";
         }
         return "loginFailure";
     }
@@ -44,6 +44,6 @@ public class LoginController {
     public String registerSuccess(@ModelAttribute User user, Model model) {
         model.addAttribute("user", user);
         this.repository.save(user);
-        return "user";
+        return "login";
     }
 }
