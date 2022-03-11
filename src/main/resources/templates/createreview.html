@@ -15,11 +15,7 @@ Display:
 </head>
 <body>
     <h1>Create a Review</h1>
-    <form action="#" th:action="@{/review}" th:object="${review}" method="post">
-        <div class="mb-3">
-            <label for="productName" class="form-label">Enter Product Name</label>
-            <input type="text" th:field="*{reviewedProduct}" class="form-control form-control-sm" id="productName" placeholder="Product Name">
-        </div>
+    <form action="#" th:action="@{'/createreview/' + ${id}}" th:object="${review}" method="post">
         <div class="mb-3">
             <label for="productRating" class="form-label">Enter Rating</label>
             <input type="text" th:field="*{reviewRating}" class="form-control form-control-sm" id="productRating" placeholder="e.g 1-4">

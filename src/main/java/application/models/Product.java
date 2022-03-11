@@ -10,20 +10,20 @@ public class Product {
     @GeneratedValue
     private long Id;
 
-//    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    private List<Review> reviews;
+    @OneToMany(mappedBy ="product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Review> reviews;
     private String name, description, link;
 
     public Product(long Id, String name, String description, String link) {
         this.Id = Id;
-        //this.reviews = new ArrayList<Review>();
+        this.reviews = new ArrayList<Review>();
         this.name = name;
         this.description = description;
         this.link = link;
     }
 
     public Product(String name, String description, String link) {
-        //this.reviews = new ArrayList<Review>();
+        this.reviews = new ArrayList<Review>();
         this.name = name;
         this.description = description;
         this.link = link;
@@ -60,10 +60,17 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-//    @Transient
-//    public void addReview(Review review) {
-//        this.reviews.add(review);
-//    }
+
+    public List<Review> getReviews() {
+        return this.reviews;
+    }
+    public void setReviews(List<Review> reviews) { this.reviews = reviews; }
+
+    @Transient
+    public void addReview(Review review) {
+        this.reviews.add(review);
+        review.setProduct(this);
+    }
 //
 //    @Transient
 //    public void removeReview()
@@ -74,6 +81,6 @@ public class Product {
                 this.Id + ", " +
                 this.name + ", " +
                 this.description + ", " +
-                this.link + "}";
+                this.link + ", " + "}";
     }
 }
