@@ -87,7 +87,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.4.2</version>
                 <configuration>
-                    <mainClass>AddressBook.lab.LabApplication</mainClass>
+                    <mainClass>application.MainApp</mainClass>
                 </configuration>
             </plugin>
         </plugins>
