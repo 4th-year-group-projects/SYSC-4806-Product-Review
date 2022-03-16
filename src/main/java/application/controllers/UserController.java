@@ -63,6 +63,15 @@ public class UserController {
     public String followingList(@PathVariable long id, Model model) {
         model.addAttribute("id", id);
         User curUser = this.repository.findUserById(id);
+
+        //for testing purposes
+        User user1 = new User("Noah", "4321");
+        User user2 = new User("Aubin", "4321");
+        User user3 = new User ("Liya", "4321");
+        curUser.followUser(user1);
+        curUser.followUser(user2);
+        curUser.followUser(user3);
+
         Set<User> following = curUser.getFollowingList();
         model.addAttribute("following", following);
         return "followingList";

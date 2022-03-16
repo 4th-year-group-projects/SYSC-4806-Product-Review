@@ -15,8 +15,8 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-
+    <tr th:each="follow : ${following}">
+        <td th:text="${follow.username}"></td>
     </tr>
     </tbody>
 </table>
