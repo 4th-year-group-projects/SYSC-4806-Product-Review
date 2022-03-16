@@ -18,6 +18,7 @@ Display:
 <body>
 
 <h1>User Home Page</h1>
+<p th:text="'Home page for user with id' + ${id}"/>
 
 <form action="#" th:action="@{/review}" method="get" id="newReview">
     <p><input type="submit" value="Create new product review"/></p>
@@ -31,6 +32,9 @@ Display:
     <p><input type="submit" value="View previous product reviews"/></p>
 </form>
 
+<form action="#" th:action="@{'/userProfile/' + ${id}}" method="get" id="profile">
+    <p><input type="submit" value="Profile Page"/></p>
+</form>
 
 
 </body>
