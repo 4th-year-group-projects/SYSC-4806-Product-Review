@@ -1,5 +1,7 @@
 package application.controllers;
 
+import application.models.Product;
+import application.models.Review;
 import application.models.User;
 import application.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
@@ -19,13 +21,6 @@ public class UserController {
         this.repository = repository;
     }
 
-
-    @GetMapping("/previousReview")
-    public String previousReview(@RequestParam String username, Model model) {
-        User a = this.repository.findByUsername(username);
-        model.addAttribute("user", a);
-        return "viewPreviousReviews";
-    }
 
     @GetMapping("/user")
     public String user(@RequestParam String username, Model model) {
@@ -80,6 +75,15 @@ public class UserController {
     @GetMapping("/reviewsWritten/{id}")
     public String reviewsWritten(@PathVariable long id, Model model) {
         model.addAttribute("id", id);
+        User curUser = this.repository.findUserById(id);
+
+        Product product1 = new Product("Vaccuum", "description", "url");
+        curUser.writeReview(product1, 5, "Good product!");
+        Product product2 = new Product("TV", "description", "url");
+        curUser.writeReview(product2, 1, "Broke within a month!");
+
+        Set<Review> reviewsWritten = curUser.getReviewList();
+        model.addAttribute("reviews", reviewsWritten);
         return "reviewsWritten";
     }
 
