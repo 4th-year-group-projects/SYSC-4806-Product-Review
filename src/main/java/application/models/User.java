@@ -12,7 +12,7 @@ public class User {
     private String password;
     private String username;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "reviewAuthor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviewList;
 
     @OneToMany
