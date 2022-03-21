@@ -1,6 +1,7 @@
 package application.models;
 
 import javax.persistence.*;
+import java.util.HashMap;
 
 @Entity
 public class Review {
@@ -137,6 +138,7 @@ public class Review {
     public String toString() {
         return "{" +
                 this.id + ", " +
+                this.product + "," +
                 this.reviewRating + ", " +
                 this.reviewComment + "}";
     }
