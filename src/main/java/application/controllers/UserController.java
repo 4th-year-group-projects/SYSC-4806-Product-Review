@@ -10,22 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.util.Set;
 
 @Controller
 public class UserController {
 
     private UserRepository repository;
+    private User loggedInUser;
 
     public UserController(UserRepository repository) {
         this.repository = repository;
-    }
-
-
-    @GetMapping("/user")
-    public String user(@RequestParam String username, Model model) {
-
-        return "user";
     }
 
     @GetMapping("/userProfile/{id}")
@@ -42,15 +37,16 @@ public class UserController {
         //for testing purposes
         User user1 = new User("Noah", "4321");
         User user2 = new User("Aubin", "4321");
-        User user3 = new User ("Liya", "4321");
-        User user4 = new User ("Adela", "4321");
+        User user3 = new User("Liya", "4321");
+        User user4 = new User("Adela", "4321");
         curUser.addFollower(user1);
         curUser.addFollower(user2);
         curUser.addFollower(user3);
         curUser.addFollower(user4);
 
         Set<User> followers = curUser.getFollowersList();
-        model.addAttribute("followers", followers);
+        if (!followers.isEmpty())
+            model.addAttribute("followers", followers);
         return "followList";
     }
 
@@ -62,13 +58,14 @@ public class UserController {
         //for testing purposes
         User user1 = new User("Noah", "4321");
         User user2 = new User("Aubin", "4321");
-        User user3 = new User ("Liya", "4321");
+        User user3 = new User("Liya", "4321");
         curUser.followUser(user1);
         curUser.followUser(user2);
         curUser.followUser(user3);
 
         Set<User> following = curUser.getFollowingList();
-        model.addAttribute("following", following);
+        if (!following.isEmpty())
+            model.addAttribute("following", following);
         return "followingList";
     }
 
@@ -87,5 +84,27 @@ public class UserController {
         return "reviewsWritten";
     }
 
+    @GetMapping("/viewUsers/{id}")
+    public String viewUsers(@PathVariable long id, Model model) {
+        this.loggedInUser = this.repository.findUserById(id);
+        List<User> users = this.repository.findAll();
+        users.remove(loggedInUser);
+        // for testing, will be removed
+        User user1 = new User("Noah", "4321");
+        User user2 = new User("Aubin", "4321");
+        User user3 = new User("Liya", "4321");
+        users.add(user1);
+        users.add(user2);
+
+        model.addAttribute("userslist", users);
+        return "viewusers";
+    }
+
+    @GetMapping("/followUser/{id}")
+    public String followUser(@PathVariable long id, Model model) {
+        User followUser = this.repository.findUserById(id);
+        followUser.addFollower(loggedInUser);
+        return "followUserSucess";
+    }
 
 }

@@ -93,4 +93,28 @@ public class User {
     public void removeFollower(User follower){
         this.followersList.remove(follower);
     }
+
+    public String getDegreeOfSeparation(User user){
+         Set<User> userList1st = new HashSet<>();
+        userList1st.addAll(this.followersList);
+        userList1st.addAll(this.followingList);
+
+         if(userList1st.contains(user)){
+             return "1st";
+         }
+         else{
+             Set<User> userList2nd = new HashSet<>();
+             for (User userInList:
+                 userList1st ) {
+                 userList2nd.add((User) userInList.getFollowersList());
+                 userList2nd.add((User) userInList.getFollowingList());
+             }
+
+             if(userList2nd.contains(user)){
+                 return "2nd";
+             }
+         }
+
+        return "3rd+";
+    }
 }

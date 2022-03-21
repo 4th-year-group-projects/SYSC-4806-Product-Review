@@ -28,8 +28,11 @@ public class LoginController {
     public String login(@ModelAttribute User user, Model model) {
         User userFromRepo = this.repository.findByUsername(user.getUsername());
         if((userFromRepo != null) && userFromRepo.getPassword().equals(user.getPassword())){
-            model.addAttribute("id", userFromRepo.getId());
-            return "user";
+            model.addAttribute("currentUserId", userFromRepo.getId());
+            model.addAttribute("currentUserName", userFromRepo.getUsername());
+            model.addAttribute("currentUser", userFromRepo);
+
+            return "userProfile";
         }
         return "loginFailure";
     }
