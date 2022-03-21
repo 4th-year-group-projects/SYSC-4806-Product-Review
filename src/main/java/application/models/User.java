@@ -118,11 +118,11 @@ public class User {
                 num_intersection++;
             }
         }
-        return num_intersection/num_union;
+        return (double) num_intersection/ (double) num_union;
     }
 
     @Transient
-    ArrayList<JaccardUserHelper> calculateJaccardDistances(Set<User> users) {
+    public ArrayList<JaccardUserHelper> calculateJaccardDistances(Set<User> users) {
         ArrayList<JaccardUserHelper> jaccardDistances = new ArrayList<>();
         for(User u : users) {
             jaccardDistances.add(new JaccardUserHelper(u, this.calculateJaccardDistance(u)));
@@ -134,6 +134,7 @@ public class User {
     public ArrayList<JaccardUserHelper> sortByJaccardDistance(Set<User> users) {
         ArrayList<JaccardUserHelper> distances = calculateJaccardDistances(users);
         Collections.sort(distances);
+        Collections.reverse(distances);
         return distances;
     }
 

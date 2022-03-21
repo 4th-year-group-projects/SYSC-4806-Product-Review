@@ -138,6 +138,7 @@ public class Review {
     public String toString() {
         return "{" +
                 this.id + ", " +
+                this.product + "," +
                 this.reviewRating + ", " +
                 this.reviewComment + "}";
     }
