@@ -73,12 +73,12 @@ public class User {
         this.username = username;
     }
 
-//    public Review writeReview(Product product, int rating, String text){
-//        Review review = new Review(product, rating, text);
-//        this.reviewList.add(review);
-//
-//        return review;
-//    }
+    public Review writeReview(Product product, int rating, String text){
+        Review review = new Review(product.getName(), product, rating, text);
+        this.reviewList.add(review);
+
+        return review;
+    }
 
     /**
      * Method used for jaccard distance that will return a mapping between the products reviewed and the ratings.

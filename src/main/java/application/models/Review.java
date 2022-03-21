@@ -91,6 +91,8 @@ public class Review {
         this.product = product;
     }
 
+    public Product getProduct() {return this.product;}
+
     /**
      *
      * @return product that was reviewed
