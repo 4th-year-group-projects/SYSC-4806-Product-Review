@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import application.models.User;
 import application.repositories.UserRepository;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+
 @Controller
 public class LoginController {
     @Autowired
@@ -25,14 +30,14 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@ModelAttribute User user, Model model) {
+    public String login(@ModelAttribute User user, Model model, HttpServletRequest request) throws ServletException, IOException {
         User userFromRepo = this.repository.findByUsername(user.getUsername());
         if((userFromRepo != null) && userFromRepo.getPassword().equals(user.getPassword())){
-            model.addAttribute("currentUserId", userFromRepo.getId());
-            model.addAttribute("currentUserName", userFromRepo.getUsername());
-            model.addAttribute("currentUser", userFromRepo);
-
-            return "userProfile";
+         //   model.addAttribute("id", userFromRepo.getId());
+            HttpSession session = request.getSession();
+            session.setAttribute("userId", userFromRepo.getId());
+            session.setAttribute("username", user.getUsername());
+            return "user";
         }
         return "loginFailure";
     }
