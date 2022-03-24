@@ -10,6 +10,7 @@ import static java.lang.Math.abs;
 
 @Entity
 public class User {
+    private static final int MAX_DEGREES = 6;
     @Id
     @GeneratedValue
     private long id;
@@ -26,7 +27,8 @@ public class User {
     private Set<User> followingList;
 
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String password) {
         this.username = name;
@@ -73,7 +75,7 @@ public class User {
         this.username = username;
     }
 
-    public Review writeReview(Product product, int rating, String text){
+    public Review writeReview(Product product, int rating, String text) {
         Review review = new Review(product.getName(), product, rating, text);
         this.reviewList.add(review);
 
@@ -82,6 +84,7 @@ public class User {
 
     /**
      * Method used for jaccard distance that will return a mapping between the products reviewed and the ratings.
+     *
      * @return HashMap with Product keys and Integer rating values
      */
     @Transient
@@ -114,17 +117,17 @@ public class User {
         // Actual intersection = all reviews with +/- 1 star
         int num_intersection = 0;
         for (Product p : commonProducts) {
-            if(abs(thisUserRatings.get(p) - otherUserRatings.get(p)) <= 1) {
+            if (abs(thisUserRatings.get(p) - otherUserRatings.get(p)) <= 1) {
                 num_intersection++;
             }
         }
-        return (double) num_intersection/ (double) num_union;
+        return (double) num_intersection / (double) num_union;
     }
 
     @Transient
     public ArrayList<JaccardUserHelper> calculateJaccardDistances(Set<User> users) {
         ArrayList<JaccardUserHelper> jaccardDistances = new ArrayList<>();
-        for(User u : users) {
+        for (User u : users) {
             jaccardDistances.add(new JaccardUserHelper(u, this.calculateJaccardDistance(u)));
         }
         return jaccardDistances;
@@ -151,46 +154,46 @@ public class User {
     */
 
 
-
-    public void followUser(User user){
+    public void followUser(User user) {
         this.followingList.add(user);
         user.addFollower(this);
     }
 
-    public void unFollowUser(User user){
+    public void unFollowUser(User user) {
         this.followingList.remove(user);
         user.removeFollower(this);
     }
 
-    public void addFollower(User follower){
+    public void addFollower(User follower) {
         this.followersList.add(follower);
     }
 
-    public void removeFollower(User follower){
+    public void removeFollower(User follower) {
         this.followersList.remove(follower);
     }
 
-    public String getDegreeOfSeparation(User user){
-         Set<User> userList1st = new HashSet<>();
-        userList1st.addAll(this.followersList);
-        userList1st.addAll(this.followingList);
+    public int getDegreesOfSeparation(User user) {
+        Set<User> directAcquaintances = new HashSet<>();
+        Set<User> checked = new HashSet<>();
+        directAcquaintances.addAll(this.followersList);
+        directAcquaintances.addAll(this.followingList);
 
-         if(userList1st.contains(user)){
-             return "1st";
-         }
-         else{
-             Set<User> userList2nd = new HashSet<>();
-             for (User userInList:
-                 userList1st ) {
-                 userList2nd.add((User) userInList.getFollowersList());
-                 userList2nd.add((User) userInList.getFollowingList());
-             }
+        if(user.getFollowersList().contains(this) || user.getFollowingList().contains(this)){
+            return 1;
+        }
+        for (int degrees = 1; degrees <= MAX_DEGREES; degrees++) {
+            if (directAcquaintances.contains(user)) {
+                return degrees;
+            } else {
+                checked.addAll(directAcquaintances);
+                for (User u : new HashSet<>(directAcquaintances)) {
+                    directAcquaintances.addAll(u.getFollowersList());
+                    directAcquaintances.addAll(u.getFollowingList());
+                }
+                directAcquaintances.removeAll(checked);
+            }
+        }
+        return -1;// Degree of separation is more than MAX_DEGREES of separation
 
-             if(userList2nd.contains(user)){
-                 return "2nd";
-             }
-         }
-
-        return "3rd+";
     }
 }
