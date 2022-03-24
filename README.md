@@ -24,3 +24,6 @@ CircleCi build : [![CircleCI](https://circleci.com/gh/aubins11/SYSC-4806-Product
 Application enables user registration and login. After login user can view their previous reviews, write a review for a new product and
 look at reviews of a product written by other users. 
 
+## Milestone 2 : Alpha Release
+
+
