@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
 
 import java.util.Set;
 
@@ -17,27 +20,24 @@ public class UserController {
 
     private UserRepository repository;
 
+
     public UserController(UserRepository repository) {
         this.repository = repository;
     }
 
 
-    @GetMapping("/user")
-    public String user(@RequestParam String username, Model model) {
-
-        return "user";
-    }
-
-    @GetMapping("/userProfile/{id}")
-    public String userProfile(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
+    @GetMapping("/userProfile")
+    public String userProfile( Model model) {
+       // model.addAttribute("id", id);
         return "userProfile";
     }
 
-    @GetMapping("/followList/{id}")
-    public String followList(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
-        User curUser = this.repository.findUserById(id);
+
+    @GetMapping("/followList")
+    public String followList(HttpServletRequest request, Model model) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        long curUserID = (long)session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
 
         //for testing purposes
         User user1 = new User("Noah", "4321");
@@ -54,10 +54,11 @@ public class UserController {
         return "followList";
     }
 
-    @GetMapping("/followingList/{id}")
-    public String followingList(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
-        User curUser = this.repository.findUserById(id);
+    @GetMapping("/followingList")
+    public String followingList(HttpServletRequest request, Model model) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        long curUserID = (long)session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
 
         //for testing purposes
         User user1 = new User("Noah", "4321");
@@ -72,10 +73,11 @@ public class UserController {
         return "followingList";
     }
 
-    @GetMapping("/reviewsWritten/{id}")
-    public String reviewsWritten(@PathVariable long id, Model model) {
-        model.addAttribute("id", id);
-        User curUser = this.repository.findUserById(id);
+    @GetMapping("/reviewsWritten")
+    public String reviewsWritten(HttpServletRequest request, Model model) throws ServletException, IOException{
+        HttpSession session = request.getSession();
+        long curUserID = (long)session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
 
         Product product1 = new Product("Vaccuum", "description", "url");
         curUser.writeReview(product1, 5, "Good product!");

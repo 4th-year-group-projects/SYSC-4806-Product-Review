@@ -9,15 +9,15 @@
 <body>
 <h1>Profile Page</h1>
 
-<form action="#" th:action="@{'/followList/' + ${id}}" method="get" id="followList">
+<form action="#" th:action="@{/followList}" method="get" id="followList">
     <p><input type="submit" value="List of Followers" class="btn btn-secondary"/></p>
 </form>
 
-<form action="#" th:action="@{'/followingList/' + ${id}}" method="get" id="followingList">
+<form action="#" th:action="@{/followingList}" method="get" id="followingList">
     <p><input type="submit" value="Following List" class="btn btn-secondary"/></p>
 </form>
 
-<form action="#" th:action="@{'/reviewsWritten/' + ${id}}" method="get" id="reviewsWritten">
+<form action="#" th:action="@{/reviewsWritten}" method="get" id="reviewsWritten">
     <p><input type="submit" value="Reviews Written" class="btn btn-secondary"/></p>
 </form>
 
