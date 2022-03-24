@@ -13,6 +13,9 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -87,6 +90,53 @@ public class UserController {
         Set<Review> reviewsWritten = curUser.getReviewList();
         model.addAttribute("reviews", reviewsWritten);
         return "reviewsWritten";
+    }
+
+    @GetMapping("/mostFollowedUsers")
+    public String mostFolowedUsers(HttpServletRequest request, Model model) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        long curUserID = (long)session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
+
+        //for testing purposes
+        User user1 = new User("Noah", "4321");
+        User user2 = new User("Aubin", "4321");
+        User user3 = new User ("Liya", "4321");
+        User user4 = new User ("Adela", "4321");
+
+        this.repository.save(user1);
+        this.repository.save(user2);
+        this.repository.save(user3);
+        this.repository.save(user4);
+        user1.addFollower(user2);
+        user1.addFollower(user3);
+        user1.addFollower(user4);
+        user2.addFollower(user1);
+        user2.addFollower(user3);
+        user3.addFollower(user4);
+
+
+        List<User> users = this.repository.findAll();
+        users.remove(curUser);
+        ArrayList<String> results = new ArrayList<>();
+
+        for(int i = 0; i < users.size(); i++) {
+            User user = users.get(i);
+            List<Integer> sortedFollowers = new ArrayList<>();
+            Set<User> followerList = user.getFollowersList();
+            sortedFollowers.add(followerList.size());
+            Collections.sort(sortedFollowers);
+
+            for(int j = 0; j < sortedFollowers.size(); j++) {
+                if (user.getFollowersList().size() == sortedFollowers.get(j)) {
+                    results.add(user.getUsername());
+                }
+            }
+        }
+
+        model.addAttribute("results", results);
+
+        return "mostFollowedUsers";
     }
 
 
