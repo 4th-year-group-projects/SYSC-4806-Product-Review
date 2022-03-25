@@ -20,10 +20,10 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Review> reviewList;
 
-    @OneToMany
+    @ManyToMany
     private Set<User> followersList;
 
-    @OneToMany
+    @ManyToMany
     private Set<User> followingList;
 
 
