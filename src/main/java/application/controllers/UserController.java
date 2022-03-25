@@ -78,7 +78,7 @@ public class UserController {
         model.addAttribute("userslist", users);
         model.addAttribute("currUser", curUser);
 
-        return "viewusers";
+        return "viewUsers";
     }
 
     @GetMapping("/followUser/{id}")
@@ -102,7 +102,7 @@ public class UserController {
         HttpSession session = request.getSession();
         long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-        
+
         List<User> users = this.repository.findAll();
         users.remove(curUser);
         ArrayList<String> results = new ArrayList<>();
