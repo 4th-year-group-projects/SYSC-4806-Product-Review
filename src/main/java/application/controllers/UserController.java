@@ -99,10 +99,10 @@ public class UserController {
         User curUser = this.repository.findUserById(curUserID);
 
         //for testing purposes
-        User user1 = new User("Noah", "4321");
-        User user2 = new User("Aubin", "4321");
-        User user3 = new User ("Liya", "4321");
-        User user4 = new User ("Adela", "4321");
+        User user1 = new User(1, "Noah", "4321");
+        User user2 = new User(2, "Aubin", "4321");
+        User user3 = new User (3, "Liya", "4321");
+        User user4 = new User ( 4,"Adela", "4321");
 
         this.repository.save(user1);
         this.repository.save(user2);
@@ -117,27 +117,28 @@ public class UserController {
 
 
         List<User> users = this.repository.findAll();
-        users.remove(curUser);
         ArrayList<String> results = new ArrayList<>();
 
-        for(int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            List<Integer> sortedFollowers = new ArrayList<>();
-            Set<User> followerList = user.getFollowersList();
-            sortedFollowers.add(followerList.size());
-            Collections.sort(sortedFollowers);
-
-            for(int j = 0; j < sortedFollowers.size(); j++) {
-                if (user.getFollowersList().size() == sortedFollowers.get(j)) {
-                    results.add(user.getUsername());
+            for (int i = 0; i < users.size(); i++) {
+                User user = users.get(i);
+                List<Integer> sortedFollowers = new ArrayList<>();
+                Set<User> followerList = user.getFollowersList();
+                sortedFollowers.add(followerList.size());
+                Collections.sort(sortedFollowers);
+                System.out.println(results);
+                for (int j = 0; j < sortedFollowers.size(); j++) {
+                    if (user.getFollowersList().size() == sortedFollowers.get(j)) {
+                        results.add(user.getUsername());
+                        System.out.println(results);
+                    }
                 }
             }
-        }
 
         model.addAttribute("results", results);
 
+        System.out.println(model.getAttribute("results"));
+
         return "mostFollowedUsers";
     }
-
 
 }
