@@ -37,6 +37,15 @@ public class User {
 
     }
 
+    public User(long id, String name, String password) {
+        this.id = id;
+        this.username = name;
+        this.password = password;
+        this.reviewList = new HashSet<>();
+        this.followersList = new HashSet<>();
+        this.followingList = new HashSet<>();
+    }
+
     public long getId() {
         return id;
     }
