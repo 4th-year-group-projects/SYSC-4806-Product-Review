@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class UserController {
@@ -105,23 +102,24 @@ public class UserController {
 
         List<User> users = this.repository.findAll();
         users.remove(curUser);
-        ArrayList<String> results = new ArrayList<>();
+        List<Integer> sortedFollowers = new ArrayList<>();
+
+        HashMap<String, Integer> resultsMap = new HashMap<>();
 
         for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
-            List<Integer> sortedFollowers = new ArrayList<>();
             Set<User> followerList = user.getFollowersList();
             sortedFollowers.add(followerList.size());
             Collections.sort(sortedFollowers);
 
             for (int j = 0; j < sortedFollowers.size(); j++) {
                 if (user.getFollowersList().size() == sortedFollowers.get(j)) {
-                    results.add(user.getUsername());
+                    resultsMap.put(user.getUsername(), sortedFollowers.get(j));
                 }
             }
         }
 
-        model.addAttribute("results", results);
+        model.addAttribute("resultsMap",resultsMap);
 
         return "mostFollowedUsers";
     }
