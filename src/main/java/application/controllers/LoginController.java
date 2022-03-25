@@ -39,7 +39,7 @@ public class LoginController {
             HttpSession session = request.getSession();
             session.setAttribute("userId", userFromRepo.getId());
             session.setAttribute("username", user.getUsername());
-            return "user";
+            return "home";
         }
         return "loginFailure";
     }
