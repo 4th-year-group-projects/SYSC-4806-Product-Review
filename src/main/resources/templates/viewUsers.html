@@ -16,7 +16,7 @@
     <tr th:each="user : ${userslist}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.username}"></td>
-        <td th:text="${user.id}"></td>
+        <td th:text="${currUser.getDegreesOfSeparation(user)}"></td>
         <td>
             <form action="#" th:action="@{/followUser/} + ${user.id}" method="get" id="followUser">
                 <p><input type="submit" value="Follow User" class="btn btn-secondary"/></p>
@@ -25,7 +25,7 @@
     </tr>
 </table>
 
-<form action="#" th:action="@{'/userProfile/' + ${id}}" method="get" id="profile">
+<form action="#" th:action="@{'/userProfile/'}" method="get" id="profile">
     <p><input type="submit" class="btn btn-secondary" value="Back to Profile Page"/></p>
 </form>
 

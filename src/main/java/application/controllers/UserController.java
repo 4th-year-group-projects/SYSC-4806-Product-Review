@@ -20,8 +20,6 @@ import java.util.Set;
 public class UserController {
 
     private UserRepository repository;
-    private User loggedInUser;
-
 
     public UserController(UserRepository repository) {
         this.repository = repository;
@@ -29,27 +27,15 @@ public class UserController {
 
 
     @GetMapping("/userProfile")
-    public String userProfile( Model model) {
-       // model.addAttribute("id", id);
+    public String userProfile() {
         return "userProfile";
     }
 
-
     @GetMapping("/followList")
-    public String followList(HttpServletRequest request, Model model) throws ServletException, IOException{
+    public String followList(HttpServletRequest request, Model model) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        long curUserID = (long)session.getAttribute("userId");
+        long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-
-        //for testing purposes
-        User user1 = new User("Noah", "4321");
-        User user2 = new User("Aubin", "4321");
-        User user3 = new User("Liya", "4321");
-        User user4 = new User("Adela", "4321");
-        curUser.addFollower(user1);
-        curUser.addFollower(user2);
-        curUser.addFollower(user3);
-        curUser.addFollower(user4);
 
         Set<User> followers = curUser.getFollowersList();
         if (!followers.isEmpty())
@@ -58,18 +44,10 @@ public class UserController {
     }
 
     @GetMapping("/followingList")
-    public String followingList(HttpServletRequest request, Model model) throws ServletException, IOException{
+    public String followingList(HttpServletRequest request, Model model) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        long curUserID = (long)session.getAttribute("userId");
+        long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-
-        //for testing purposes
-        User user1 = new User("Noah", "4321");
-        User user2 = new User("Aubin", "4321");
-        User user3 = new User("Liya", "4321");
-        curUser.followUser(user1);
-        curUser.followUser(user2);
-        curUser.followUser(user3);
 
         Set<User> following = curUser.getFollowingList();
         if (!following.isEmpty())
@@ -78,79 +56,65 @@ public class UserController {
     }
 
     @GetMapping("/reviewsWritten")
-    public String reviewsWritten(HttpServletRequest request, Model model) throws ServletException, IOException{
+    public String reviewsWritten(HttpServletRequest request, Model model) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        long curUserID = (long)session.getAttribute("userId");
+        long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-
-        Product product1 = new Product("Vaccuum", "description", "url");
-        curUser.writeReview(product1, 5, "Good product!");
-        Product product2 = new Product("TV", "description", "url");
-        curUser.writeReview(product2, 1, "Broke within a month!");
 
         Set<Review> reviewsWritten = curUser.getReviewList();
         model.addAttribute("reviews", reviewsWritten);
         return "reviewsWritten";
     }
 
-    @GetMapping("/viewUsers/{id}")
-    public String viewUsers(@PathVariable long id, Model model) {
-        this.loggedInUser = this.repository.findUserById(id);
+    @GetMapping("/viewUsers")
+    public String viewUsers(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession();
+        long curUserID = (long) session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
+
         List<User> users = this.repository.findAll();
-        users.remove(loggedInUser);
-        // for testing, will be removed
-        User user1 = new User("Noah", "4321");
-        User user2 = new User("Aubin", "4321");
-        User user3 = new User("Liya", "4321");
-        users.add(user1);
-        users.add(user2);
+        users.remove(curUser);
 
         model.addAttribute("userslist", users);
+        model.addAttribute("currUser", curUser);
+
         return "viewusers";
     }
 
     @GetMapping("/followUser/{id}")
-    public String followUser(@PathVariable long id, Model model) {
+    public String followUser(@PathVariable long id, HttpServletRequest request,Model model) {
         User followUser = this.repository.findUserById(id);
-        followUser.addFollower(loggedInUser);
+        HttpSession session = request.getSession();
+        long curUserID = (long) session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
+
+        curUser.followUser(followUser);
+        this.repository.save(curUser);
+        this.repository.save(followUser);
+
+        model.addAttribute("followedUser", followUser);
+
         return "followUserSucess";
     }
+
     @GetMapping("/mostFollowedUsers")
     public String mostFolowedUsers(HttpServletRequest request, Model model) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        long curUserID = (long)session.getAttribute("userId");
+        long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-
-        //for testing purposes
-        User user1 = new User("Noah", "4321");
-        User user2 = new User("Aubin", "4321");
-        User user3 = new User ("Liya", "4321");
-        User user4 = new User ("Adela", "4321");
-
-        this.repository.save(user1);
-        this.repository.save(user2);
-        this.repository.save(user3);
-        this.repository.save(user4);
-        user1.addFollower(user2);
-        user1.addFollower(user3);
-        user1.addFollower(user4);
-        user2.addFollower(user1);
-        user2.addFollower(user3);
-        user3.addFollower(user4);
-
-
+        
         List<User> users = this.repository.findAll();
         users.remove(curUser);
         ArrayList<String> results = new ArrayList<>();
 
-        for(int i = 0; i < users.size(); i++) {
+        for (int i = 0; i < users.size(); i++) {
             User user = users.get(i);
             List<Integer> sortedFollowers = new ArrayList<>();
             Set<User> followerList = user.getFollowersList();
             sortedFollowers.add(followerList.size());
             Collections.sort(sortedFollowers);
 
-            for(int j = 0; j < sortedFollowers.size(); j++) {
+            for (int j = 0; j < sortedFollowers.size(); j++) {
                 if (user.getFollowersList().size() == sortedFollowers.get(j)) {
                     results.add(user.getUsername());
                 }
