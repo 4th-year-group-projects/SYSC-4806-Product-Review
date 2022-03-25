@@ -13,11 +13,13 @@
     <thead>
     <tr>
         <th scope="col">Username</th>
+        <th scope="col">Followers</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="result : ${results}">
-        <td th:text="${result}"></td>
+    <tr th:each="mapItem, state : ${resultsMap}">
+        <td th:text="${mapItem.key}"></td>
+        <td th:text="${mapItem.value}"></td>
     </tr>
     </tbody>
 </table>
