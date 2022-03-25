@@ -10,6 +10,7 @@ public class Review {
     private long id;
 
     @ManyToOne//(fetch = FetchType.EAGER)
+    @JoinColumn(name="USER_ID")
     private User reviewAuthor;
     @ManyToOne(fetch = FetchType.LAZY)//(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")
