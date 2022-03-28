@@ -14,12 +14,14 @@
         <th>Name</th>
         <th>Description</th>
         <th>Link</th>
+        <th>Category</th>
     </tr>
     <tr th:each="product : ${productlist}">
         <td th:text="${product.id}"></td>
         <td th:text="${product.name}"></td>
         <td th:text="${product.description}"></td>
         <td th:text="${product.link}"></td>
+        <td th:text="${product.category?.label}"></td>
         <td>
             <form action="#" th:action="@{/viewreviews/} + ${product.id}" method="get" id="viewreviews">
                 <p><input type="submit" value="See Reviews ->" class="btn btn-secondary"/></p>
