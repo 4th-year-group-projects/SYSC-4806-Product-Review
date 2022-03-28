@@ -27,7 +27,7 @@ public class JaccardTest {
         reviews = new ArrayList<>();
         // Instantiate Products
         for(int i = 0; i < NUM_PRODUCTS; i++) {
-            products.add(new Product(i,"p"+i, "desc"+i, "url"+i));
+            products.add(new Product(i,"p"+i, "desc"+i, "url"+i, Category.BOOKS));
         }
         // Instantiate Users
         for(int i = 0; i < NUM_USERS; i++) {

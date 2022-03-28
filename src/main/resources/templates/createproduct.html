@@ -9,7 +9,6 @@
 <body>
 <h1>Create a Product</h1>
 <form action="#" th:action="@{'/createproduct'}" th:object="${product}" method="post" id="createproductform">
-
     <div class="mb-3">
         <label for="name" class="form-label">Enter Product Name</label>
         <input type="text" th:field="*{name}" class="form-control form-control-sm" id="name">
@@ -21,6 +20,13 @@
     <div class="mb-3">
         <label for="link" class="form-label">Enter Product URL</label>
         <input type="text" th:field="*{link}" class="form-control form-control-sm" id="link">
+    </div>
+    <div class="mb-3">
+        <label for="category" class="form-label">Choose Product Category</label>
+        <select th:field="*{category} "class="form-control form-control-sm" id="category">
+            <option value="">select option</option>
+            <option th:each="category : ${T(application.Category).values()}" th:value="${{category}}" th:text="${category.label}"></option>
+        </select>
     </div>
     <div>
         <input type="submit" value="Submit" class="btn btn-primary"/>

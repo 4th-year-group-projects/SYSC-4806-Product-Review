@@ -38,14 +38,14 @@ public class ReviewController {
 
     @PostMapping("/createreview/{id}")
     public String createProductReviewSuccess(@PathVariable long id, @ModelAttribute Review review, Model model, HttpServletRequest request) throws ServletException, IOException{
-        Product currProdcut = this.productRepository.findById(id);
-        currProdcut.addReview(review);
+        Product currProduct = this.productRepository.findById(id);
+        currProduct.addReview(review);
         HttpSession session = request.getSession();
         String username = (String)session.getAttribute("username");
         User currUser = this.userRepository.findByUsername(username);
-        currUser.writeReview(currProdcut, review.getReviewRating(), review.getReviewComment());
+        currUser.writeReview(currProduct, review.getReviewRating(), review.getReviewComment());
         model.addAttribute("id", id);
-        this.productRepository.save(currProdcut);
+        this.productRepository.save(currProduct);
         return "reviewSuccess";
     }
 
