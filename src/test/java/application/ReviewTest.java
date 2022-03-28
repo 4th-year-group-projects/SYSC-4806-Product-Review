@@ -1,5 +1,6 @@
 package application;
 
+import application.models.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -26,10 +27,11 @@ public class ReviewTest {
     private ObjectMapper mapper;
     @Autowired
     private WebApplicationContext webApplicationContext;
+    @Autowired
+    private MockHttpSession mockHttpSession;
 
     @BeforeAll
-    public void testCreateReview() throws Exception {
-
+    public void setup() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/register")
                         .param("username", "Sandwich")
@@ -42,7 +44,7 @@ public class ReviewTest {
                         .param("password", "mysandwich"))
                 .andExpect(status().isOk());
 
-        MockHttpSession mockHttpSession = new MockHttpSession(webApplicationContext.getServletContext());
+        mockHttpSession = new MockHttpSession(webApplicationContext.getServletContext());
 
         mockHttpSession.setAttribute("username", "Sandwich");
 
@@ -53,7 +55,10 @@ public class ReviewTest {
                         .param("link", "www.google.com"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Success")));
+    }
 
+    @Test
+    public void testCreateAndViewReviews() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/createreview/2")
                         .session(mockHttpSession)
@@ -61,10 +66,7 @@ public class ReviewTest {
                         .param("reviewComment", "This is too smooth"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Success")));
-    }
 
-    @Test
-    public void testViewReviews() throws Exception {
         this.mockMvc.perform(get("/viewreviews/2")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("8"))).andExpect(content()
                         .string(containsString("This is too smooth")));
