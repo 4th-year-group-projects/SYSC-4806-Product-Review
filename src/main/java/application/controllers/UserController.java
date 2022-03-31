@@ -134,7 +134,7 @@ public class UserController {
 
         Set<User> users = this.repository.findAll();
         users.remove(curUser);
-        ArrayList<JaccardUserHelper> similarUsers = curUser.calculateJaccardDistances(users);
+        ArrayList<JaccardUserHelper> similarUsers = curUser.sortByJaccardDistance(users);
         model.addAttribute("users", similarUsers);
         return "similarUsers";
     }
