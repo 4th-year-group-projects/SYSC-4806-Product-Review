@@ -11,4 +11,4 @@ target
 *.iml
 *.class
 /data/
-application.properties
+*.properties
