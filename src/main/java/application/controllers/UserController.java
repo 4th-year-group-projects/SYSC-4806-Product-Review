@@ -60,10 +60,7 @@ public class UserController {
         HttpSession session = request.getSession();
         long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
-
         Set<Review> reviewsWritten = curUser.getReviewList();
-        System.out.println(reviewsWritten.toString());
-        System.out.println(curUser.getUsername());
         model.addAttribute("reviews", reviewsWritten);
         return "reviewsWritten";
     }
@@ -138,7 +135,6 @@ public class UserController {
         Set<User> users = this.repository.findAll();
         users.remove(curUser);
         ArrayList<JaccardUserHelper> similarUsers = curUser.calculateJaccardDistances(users);
-        System.out.println(similarUsers);
         model.addAttribute("users", similarUsers);
         return "similarUsers";
     }

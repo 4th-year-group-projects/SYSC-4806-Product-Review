@@ -49,7 +49,7 @@ public class ReviewController {
         String username = (String)session.getAttribute("username");
         User currUser = this.userRepository.findByUsername(username);
         currUser.writeReview(currProduct, review.getReviewRating(), review.getReviewComment());
-        System.out.println(currUser.getReviewList().toString());
+        review.setReviewAuthor(currUser);
         model.addAttribute("id", id);
         this.productRepository.save(currProduct);
         this.userRepository.save(currUser);
