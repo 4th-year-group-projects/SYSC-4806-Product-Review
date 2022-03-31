@@ -39,7 +39,7 @@ public class ProductTest {
     }
 
     @Test
-    public void testGetReviews() throws Exception {
+    public void testGetProducts() throws Exception {
         this.mockMvc.perform(get("/viewproducts/")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("Sandwich")));
     }

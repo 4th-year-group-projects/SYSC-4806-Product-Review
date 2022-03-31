@@ -10,17 +10,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
 
-import java.util.List;
 
 @Controller
 public class ReviewController {
+
     @Autowired
-    private ReviewRepository reviewRepository;
+    private UserRepository userRepository;
+
     @Autowired
     ProductRepository productRepository;
-    public ReviewController(ReviewRepository reviewRepository, ProductRepository productRepository) {
-        this.reviewRepository = reviewRepository;
+    public ReviewController(UserRepository userRepository, ProductRepository productRepository) {
+        this.userRepository = userRepository;
         this.productRepository = productRepository;
     }
     @GetMapping("/createreview/{id}")
@@ -33,11 +37,15 @@ public class ReviewController {
     }
 
     @PostMapping("/createreview/{id}")
-    public String createProductReviewSuccess(@PathVariable long id, @ModelAttribute Review review, Model model) {
-        Product p = this.productRepository.findById(id);
-        p.addReview(review);
+    public String createProductReviewSuccess(@PathVariable long id, @ModelAttribute Review review, Model model, HttpServletRequest request) throws ServletException, IOException{
+        Product currProduct = this.productRepository.findById(id);
+        currProduct.addReview(review);
+        HttpSession session = request.getSession();
+        String username = (String)session.getAttribute("username");
+        User currUser = this.userRepository.findByUsername(username);
+        currUser.writeReview(currProduct, review.getReviewRating(), review.getReviewComment());
         model.addAttribute("id", id);
-        this.productRepository.save(p);
+        this.productRepository.save(currProduct);
         return "reviewSuccess";
     }
 

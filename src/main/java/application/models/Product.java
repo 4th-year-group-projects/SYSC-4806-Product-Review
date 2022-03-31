@@ -1,5 +1,7 @@
 package application.models;
 
+import application.Category;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,20 +15,23 @@ public class Product {
     @OneToMany(mappedBy ="product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Review> reviews;
     private String name, description, link;
+    private Category category;
 
-    public Product(long Id, String name, String description, String link) {
+    public Product(long Id, String name, String description, String link, Category category) {
         this.Id = Id;
         this.reviews = new ArrayList<Review>();
         this.name = name;
         this.description = description;
         this.link = link;
+        this.category = category;
     }
 
-    public Product(String name, String description, String link) {
+    public Product(String name, String description, String link, Category category) {
         this.reviews = new ArrayList<Review>();
         this.name = name;
         this.description = description;
         this.link = link;
+        this.category = category;
     }
 
     public Product() {}
@@ -66,6 +71,14 @@ public class Product {
     }
     public void setReviews(List<Review> reviews) { this.reviews = reviews; }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Transient
     public void addReview(Review review) {
         this.reviews.add(review);
@@ -81,6 +94,7 @@ public class Product {
                 this.Id + ", " +
                 this.name + ", " +
                 this.description + ", " +
-                this.link + ", " + "}";
+                this.link + ", " +
+                this.category + "}";
     }
 }
