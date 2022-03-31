@@ -23,9 +23,14 @@ public class ReviewController {
 
     @Autowired
     ProductRepository productRepository;
-    public ReviewController(UserRepository userRepository, ProductRepository productRepository) {
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    public ReviewController(UserRepository userRepository, ProductRepository productRepository, ReviewRepository reviewRepository) {
         this.userRepository = userRepository;
         this.productRepository = productRepository;
+        this.reviewRepository = reviewRepository;
     }
     @GetMapping("/createreview/{id}")
     public String createProductReviewForm(@PathVariable long id, Model model) {
@@ -44,8 +49,10 @@ public class ReviewController {
         String username = (String)session.getAttribute("username");
         User currUser = this.userRepository.findByUsername(username);
         currUser.writeReview(currProduct, review.getReviewRating(), review.getReviewComment());
+        System.out.println(currUser.getReviewList().toString());
         model.addAttribute("id", id);
         this.productRepository.save(currProduct);
+        this.userRepository.save(currUser);
         return "reviewSuccess";
     }
 

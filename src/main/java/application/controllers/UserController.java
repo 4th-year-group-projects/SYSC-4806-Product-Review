@@ -1,9 +1,11 @@
 package application.controllers;
 
+import application.JaccardUserHelper;
 import application.models.Product;
 import application.models.Review;
 import application.models.User;
 import application.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import java.util.*;
 @Controller
 public class UserController {
 
+    @Autowired
     private UserRepository repository;
 
     public UserController(UserRepository repository) {
@@ -59,6 +62,8 @@ public class UserController {
         User curUser = this.repository.findUserById(curUserID);
 
         Set<Review> reviewsWritten = curUser.getReviewList();
+        System.out.println(reviewsWritten.toString());
+        System.out.println(curUser.getUsername());
         model.addAttribute("reviews", reviewsWritten);
         return "reviewsWritten";
     }
@@ -69,7 +74,7 @@ public class UserController {
         long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
 
-        List<User> users = this.repository.findAll();
+        Set<User> users = this.repository.findAll();
         users.remove(curUser);
 
         model.addAttribute("userslist", users);
@@ -100,7 +105,7 @@ public class UserController {
         long curUserID = (long) session.getAttribute("userId");
         User curUser = this.repository.findUserById(curUserID);
 
-        List<User> users = this.repository.findAll();
+        List<User> users = this.repository.findAllByIdIsNotNull();
         users.remove(curUser);
         List<Integer> sortedFollowers = new ArrayList<>();
 
@@ -122,6 +127,20 @@ public class UserController {
         model.addAttribute("resultsMap",resultsMap);
 
         return "mostFollowedUsers";
+    }
+
+    @GetMapping("/similarUsers")
+    public String similarUsers(HttpServletRequest request, Model model) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        long curUserID = (long) session.getAttribute("userId");
+        User curUser = this.repository.findUserById(curUserID);
+
+        Set<User> users = this.repository.findAll();
+        users.remove(curUser);
+        ArrayList<JaccardUserHelper> similarUsers = curUser.calculateJaccardDistances(users);
+        System.out.println(similarUsers);
+        model.addAttribute("users", similarUsers);
+        return "similarUsers";
     }
 
 }
