@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,6 +21,17 @@
             <button type="submit" class="btn btn-lg btn-secondary btn-block">Back to Profile Page</button>
         </form>
     </div>
+    <form style="max-width: 680px;margin: auto;" th:action="@{/filterproduct}" method="post">
+        <div class="form-group row mb-3">
+            <label  class="col-form-label">Choose Product Category:</label>
+            <select th:name="categorySelect" class="form-control form-control-sm" >
+                <option value="All">All</option>
+                <option th:each="category : ${T(application.Category).values()}" th:value="${{category.label}}"
+                        th:text="${category.label}"></option>
+            </select>
+        </div>
+        <p><input type="submit" value="Filter Table" class="btn btn-secondary"/></p>
+    </form>
     <p class="h5 font-weight-normal bg-light text-dark text-left" th:text="'Viewing All Products'"/>
     <table class="table table-bordered table-dark table-hover">
         <tr>
