@@ -27,6 +27,24 @@ public class ProductController {
         return "createproduct";
     }
 
+    @PostMapping("/filterproduct")
+    public String filterProduct(Model model, @RequestParam(value = "categorySelect") String category) {
+        List<Product> list = this.repository.findAll();
+        List<Product> newlist = new ArrayList<Product>();
+        if (category.equals("All")) {
+            newlist = list;
+        } else {
+            for (Product product : list) {
+                if (product.getCategory().toString().equals(category)) {
+                    newlist.add(product);
+                }
+            }
+        }
+        model.addAttribute("productlist", newlist);
+
+        return "viewproducts";
+    }
+
     @PostMapping("/createproduct")
     public String createProductFormSuccess(@ModelAttribute Product product, Model model) {
         model.addAttribute(product);
