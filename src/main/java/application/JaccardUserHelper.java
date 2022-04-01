@@ -23,4 +23,9 @@ public class JaccardUserHelper implements Comparable<JaccardUserHelper>{
     public int compareTo(JaccardUserHelper j) {
         return this.jaccardDistance.compareTo(j.getJaccardDistance());
     }
+
+    @Override
+    public String toString() {
+        return "username" + user.getUsername() + " jaccard distance" + getJaccardDistance();
+    }
 }
