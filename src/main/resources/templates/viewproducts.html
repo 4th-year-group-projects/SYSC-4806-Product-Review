@@ -1,55 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>View Products</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Product-Review-Application: View Products</title>
 </head>
 <body>
-<h1>View Products </h1>
-<p th:text="'Viewing All Products'"/>
-
-<form th:action="@{/filterproduct}" method="post">
-    <div class="mb-3">
-        <label  class="form-label">Choose Product Category</label>
-        <select th:name="categorySelect" class="form-control form-control-sm" >
-            <option value="All">All</option>
-            <option th:each="category : ${T(application.Category).values()}" th:value="${{category.label}}"
-                    th:text="${category.label}"></option>
-        </select>
+<div class="text-center">
+    <h1 class="h3 font-weight-normal bg-dark text-white">View Products</h1>
+    <div class="text-center mb-3">
+        <form style="max-width: 180px;margin: auto;display: inline;" action="#" th:action="@{/createproduct}" method="get" id="createaddressbook">
+            <h1 class="h3 mb-3 font-weight-normal">Create Product</h1>
+            <button type="submit" class="btn btn-lg btn-primary btn-block">Create Product</button>
+        </form>
+        <form style="max-width: 180px;margin: auto;display: inline;" action="#" th:action="@{/userProfile}" method="get" id="profile">
+            <button type="submit" class="btn btn-lg btn-secondary btn-block">Back to Profile Page</button>
+        </form>
     </div>
-    <p><input type="submit" value="Filter Table" class="btn btn-secondary"/></p>
-</form>
+    <form style="max-width: 680px;margin: auto;" th:action="@{/filterproduct}" method="post">
+        <div class="form-group row mb-3">
+            <label  class="col-form-label">Choose Product Category:</label>
+            <select th:name="categorySelect" class="form-control form-control-sm" >
+                <option value="All">All</option>
+                <option th:each="category : ${T(application.Category).values()}" th:value="${{category.label}}"
+                        th:text="${category.label}"></option>
+            </select>
+        </div>
+        <p><input type="submit" value="Filter Table" class="btn btn-secondary"/></p>
+    </form>
+    <p class="h5 font-weight-normal bg-light text-dark text-left" th:text="'Viewing All Products'"/>
+    <table class="table table-bordered table-dark table-hover">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Link</th>
+            <th>Category</th>
+        </tr>
+        <tr th:each="product : ${productlist}">
+            <td th:text="${product.id}"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.description}"></td>
+            <td th:text="${product.link}"></td>
+            <td th:text="${product.category?.label}"></td>
+            <td>
+                <form action="#" th:action="@{/viewreviews/} + ${product.id}" method="get" id="viewreviews">
+                    <button type="submit" class="btn btn-sm btn-success btn-block">See Reviews</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
-
-<table border="1" class="table table-striped">
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Link</th>
-        <th>Category</th>
-    </tr>
-    <tr th:each="product : ${productlist}">
-        <td th:text="${product.id}"></td>
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.description}"></td>
-        <td th:text="${product.link}"></td>
-        <td th:text="${product.category?.label}"></td>
-        <td>
-            <form action="#" th:action="@{/viewreviews/} + ${product.id}" method="get" id="viewreviews">
-                <p><input type="submit" value="See Reviews ->" class="btn btn-secondary"/></p>
-            </form>
-        </td>
-    </tr>
-</table>
-<form action="#" th:action="@{/createproduct}" method="get" id="createaddressbook">
-    <h6> Create Product</h6>
-    <p><input type="submit" value="Create Product" class="btn btn-secondary"/></p>
-</form>
-<form action="#" th:action="@{/userProfile}" method="get" id="profile">
-    <p><input type="submit" class="btn btn-secondary" value="Back to Profile Page"/></p>
-</form>
 </body>
 </html>
