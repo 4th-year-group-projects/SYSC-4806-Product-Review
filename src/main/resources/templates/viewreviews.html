@@ -22,16 +22,23 @@
     </form>
   </div>
   <p class="h5 font-weight-normal bg-light text-dark text-left" th:text="'Viewing All Reviews for ' + ${currentProduct.name}"/>
+  <form style="max-width: 680px;margin: auto;" th:action="@{'/filterreviews/' + ${id}}" method="get">
+    <p><input type="submit" value="Filter Table by Author Jaccard Index" class="btn btn-secondary"/></p>
+  </form>
   <table class="table table-bordered table-dark table-hover">
     <tr>
       <th>Id</th>
+      <th>Author</th>
       <th>Rating</th>
       <th>Comment</th>
+      <span th:if="${sorted == 'true'}"><th>Jaccard Index</th></span>
     </tr>
-    <tr th:each="review : ${currentProduct.reviews}">
+    <tr th:each="review, iStat : ${productReviews}">
       <td th:text="${review.id}"></td>
+      <td th:text="${review.reviewAuthor.username}"></td>
       <td th:text="${review.reviewRating}"></td>
       <td th:text="${review.reviewComment}"></td>
+      <span th:if="${sorted == 'true'}"><td th:text="${distances[iStat.index]}"></td></span>
     </tr>
   </table>
 </div>

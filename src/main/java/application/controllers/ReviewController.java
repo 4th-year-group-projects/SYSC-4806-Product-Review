@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @Controller
@@ -64,6 +67,31 @@ public class ReviewController {
             return "invalidproduct";
         }
         model.addAttribute("currentProduct", currentProduct);
+        model.addAttribute("productReviews", currentProduct.getReviews());
+        model.addAttribute("id", currentProduct.getId());
+        return "viewreviews";
+    }
+
+    @GetMapping("/filterreviews/{id}")
+    public String filterReviewsByJaccard(@PathVariable long id, Model model, HttpServletRequest request) {
+        Product currentProduct = this.productRepository.findById(id);
+        if (currentProduct == null){
+            return "invalidproduct";
+        }
+        model.addAttribute("currentProduct", currentProduct);
+        HttpSession session = request.getSession();
+        String username = (String)session.getAttribute("username");
+        User currUser = this.userRepository.findByUsername(username);
+        LinkedHashMap<Review, Double> jaccardOrdered = currentProduct.getReviewsSortedByJaccardDistance(currUser);
+        ArrayList<Review> productReviews = new ArrayList<>();
+        ArrayList<Double> indexes = new ArrayList<>();
+        for (Map.Entry<Review, Double> entry : jaccardOrdered.entrySet()) {
+            productReviews.add(entry.getKey());
+            indexes.add(entry.getValue());
+        }
+        model.addAttribute("distances", indexes);
+        model.addAttribute("sorted", "true");
+        model.addAttribute("productReviews", productReviews);
         model.addAttribute("id", currentProduct.getId());
         return "viewreviews";
     }
