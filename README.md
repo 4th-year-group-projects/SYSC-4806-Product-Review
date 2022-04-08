@@ -31,8 +31,17 @@ Application enables user to:
 * View the reviews they have written previously
 * View a list of most followed users and their follower number
 * Create a product and write a review for the products(reviews are now associated with users)
+
+## Milestone 3 : Final Release
+
+Application now enables users to:
+* Create a product with a category
+* View reviews ranked based on Jaccard distance between them and review's author and 
+
+Additional features added to application:
 * Persisting data to database
+* Better application UI
 
-
+![front page of webapp](Diagrams/screenshots/1.png)
 
 
