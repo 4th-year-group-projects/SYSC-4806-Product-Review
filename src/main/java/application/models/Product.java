@@ -1,9 +1,12 @@
 package application.models;
 
 import application.Category;
+import application.JaccardUserHelper;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 @Entity
@@ -84,9 +87,7 @@ public class Product {
         this.reviews.add(review);
         review.setProduct(this);
     }
-//
-//    @Transient
-//    public void removeReview()
+
     @Override
     @Transient
     public String toString() {
@@ -96,5 +97,24 @@ public class Product {
                 this.description + ", " +
                 this.link + ", " +
                 this.category + "}";
+    }
+
+    @Transient
+    /**
+     * Method to get all the reviews for this product instance, ordered by jaccard
+     * distance of authors from the user provided as argument
+     */
+    public LinkedHashMap<Review, Double> getReviewsSortedByJaccardDistance(User u) {
+        LinkedHashMap<Review, Double> sortedReviews = new LinkedHashMap<>(this.reviews.size());
+        HashMap<User, Review> userReviewMap = new HashMap<>();
+        for (Review r : this.reviews) {
+            userReviewMap.put(r.getReviewAuthor(), r);
+        }
+        ArrayList<JaccardUserHelper> usersDistances;
+        usersDistances = u.sortByJaccardDistance(userReviewMap.keySet());
+        for(JaccardUserHelper j : usersDistances) {
+            sortedReviews.put(userReviewMap.get(j.getUser()), j.getJaccardDistance());
+        }
+        return sortedReviews;
     }
 }
